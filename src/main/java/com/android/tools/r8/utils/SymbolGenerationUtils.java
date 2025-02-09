@@ -7,10 +7,14 @@ package com.android.tools.r8.utils;
 import static com.android.tools.r8.utils.StringUtils.EMPTY_CHAR_ARRAY;
 
 import com.google.common.collect.Sets;
+import kotlin.jvm.functions.Function1;
+
 import java.util.Arrays;
 import java.util.Set;
 
 public class SymbolGenerationUtils {
+
+  public static Function1<Integer, String> newSymbolGenerationFunction;
 
   public enum MixedCasing {
     USE_MIXED_CASE,
@@ -39,6 +43,14 @@ public class SymbolGenerationUtils {
 
   public static String numberToIdentifier(
       int nameCount, MixedCasing mixedCasing, char[] prefix, boolean addSemicolon) {
+
+    if (newSymbolGenerationFunction != null) {
+      String newFormatterResult = newSymbolGenerationFunction.invoke(nameCount - 1);
+      if (newFormatterResult != null) {
+        return newFormatterResult;
+      }
+    }
+
     int size = 1;
     int number = nameCount;
     int maximumNumberOfCharacters =
