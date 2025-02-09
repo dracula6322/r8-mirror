@@ -50,7 +50,7 @@ public class VersionProperties {
   }
 
   public String getDescription() {
-    return "build " + getSha() + (releaser != null ? " from " + releaser : "");
+    return "build " + getSha() + (releaser != null ? " from custom build " + releaser : "");
   }
 
   public String getSha() {
